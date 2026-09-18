@@ -58,7 +58,7 @@ jobs:
                 PINECONE_API_KEY="${{ secrets.PINECONE_API_KEY }}" \
                 PINECONE_INDEX_NAME="${{ secrets.PINECONE_INDEX_NAME }}" \
                 GROQ_MODEL="${{ secrets.GROQ_MODEL }}" \
-                SCM_DO_BUILD_DURING_DEPLOYMENT="false" \
+                SCM_DO_BUILD_DURING_DEPLOYMENT="true" \
                 WEBSITE_RUN_FROM_PACKAGE="0"
 
       - name: Set Startup Command

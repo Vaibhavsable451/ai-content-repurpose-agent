@@ -10,6 +10,7 @@ Features:
 """
 
 import uuid
+import threading
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
@@ -78,14 +79,22 @@ class PublishRequest(BaseModel):
 
 @app.on_event("startup")
 def warm_up_models():
-    """Pre-load embedding model and Pinecone index at server startup."""
-    print("Warming up embedding model and Pinecone index...")
-    try:
-        get_embedder()
-        get_index()
-        print("Warm-up complete. Backend ready.")
-    except Exception as e:
-        print(f"Warm-up failed: {e}")
+    """Pre-load embedding model and Pinecone index in background thread.
+    Running in background so Azure App Service doesn't timeout waiting for
+    sentence-transformers model download on first boot.
+    """
+    def _warmup():
+        print("[Warmup] Starting background model load...")
+        try:
+            get_embedder()
+            get_index()
+            print("[Warmup] Complete. Embedder and Pinecone index ready.")
+        except Exception as e:
+            print(f"[Warmup] Failed (non-fatal): {e}")
+
+    thread = threading.Thread(target=_warmup, daemon=True)
+    thread.start()
+    print("[Startup] App ready. Warmup running in background.")
 
 
 @app.get("/health")
