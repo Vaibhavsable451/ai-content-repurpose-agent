@@ -1,0 +1,3 @@
+# Root Requirements for AI Content Repurposing Agent
+-r backend/requirements.txt
+-r frontend/requirements.txt
