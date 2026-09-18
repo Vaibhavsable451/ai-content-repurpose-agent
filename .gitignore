@@ -1,0 +1,31 @@
+# Environment & Secrets (CRITICAL)
+.env
+*.env
+.env.*
+backend/.env
+*.pem
+*.key
+
+# Python & Virtual Environments
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+backend/venv/
+frontend/venv/
+frontend/frontend/venv/
+
+# Logs & Traces
+*.log
+agent_traces.jsonl
+*.jsonl
+
+# IDE & OS Files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Streamlit Secrets
+.streamlit/secrets.toml
